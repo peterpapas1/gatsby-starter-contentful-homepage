@@ -13,6 +13,17 @@ exports.createSchemaCustomization = async ({ actions }) => {
     },
   })
 
+  // Home page banner
+
+  actions.createTypes(`
+  interface HomepageBanner implements Node & HomepageBlock {
+    id: ID!
+    blocktype: String
+    heading: String
+    text: String
+  }
+`)
+
   actions.createFieldExtension({
     name: "imagePassthroughArgs",
     extend(options) {
@@ -76,6 +87,16 @@ exports.createSchemaCustomization = async ({ actions }) => {
   })
 
   // abstract interfaces
+
+  actions.createTypes(`
+    type ContentfulHomepageBanner implements Node & HomepageBanner & HomepageBlock @dontInfer {
+      id: ID!
+      blocktype: String @blocktype
+      heading: String
+      text: String
+    }
+  `)
+  
   actions.createTypes(/* GraphQL */ `
     interface HomepageBlock implements Node {
       id: ID!
